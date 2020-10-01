@@ -1,18 +1,24 @@
 function _createModal(options) {
+  const { title, content, width, closable } = options;
+  const DEFAULT_WIDTH = "300px";
+
   const modal = document.createElement("div");
   modal.classList.add("vmodal");
   modal.insertAdjacentHTML(
     "afterbegin",
     `
-    <div class="vmodal-overlay">
-    <div class="vmodal-window">
+    <div class="vmodal-overlay" data-close='true'>
+    <div style='width: ${width || DEFAULT_WIDTH}' class="vmodal-window">
       <div class="vmodal-header">
-        <span class="vmodal-title">vModal title</span>
-        <span class="vmodal-close">&times;</span>
+        <span class="vmodal-title">${title || ""}</span>
+        ${
+          closable
+            ? `<span class="vmodal-close" data-close='true'>&times;</span>`
+            : ""
+        }
       </div>
       <div class="vmodal-body">
-        <p>Lorem ipsum dolor sit.</p>
-        <p>Lorem ipsum dolor sit.</p>
+        ${content || ""}
       </div>
       <div class="vmodal-footer">
         <button>Ok</button>
@@ -27,14 +33,30 @@ function _createModal(options) {
 }
 
 $.modal = function(options) {
+  let closing = false;
+  const ANIMATION_SPEED = 200;
   const $modal = _createModal(options);
-  return {
+
+  const modal = {
     open() {
-      $modal.classList.add("open");
+      !closing && $modal.classList.add("open");
     },
     close() {
+      closing = true;
       $modal.classList.remove("open");
-    },
-    destroy() {}
+      $modal.classList.add("hide");
+
+      setTimeout(() => {
+        $modal.classList.remove("hide");
+        closing = false;
+      }, ANIMATION_SPEED);
+    }
   };
+
+  $modal.addEventListener("click", event => {
+    if (event.target.dataset.close) {
+      modal.close();
+    }
+  });
+  return modal;
 };
