@@ -1,0 +1,56 @@
+.vmodal {}
+
+.vmodal.open .vmodal-overlay,
+.vmodal.open .vmodal-window {
+    opacity: 1;
+    z-index: 999;
+}
+
+.vmodal-window, .vmodal-overlay {
+    opacity: 0;
+    z-index: -1;
+}
+
+.vmodal-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.vmodal-window {
+    width: 600px;
+    border-radius: 5px;
+    background-color: #fff;
+    margin: 100px auto;
+}
+
+.vmodal-header {
+    padding: 5px 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+}
+
+.vmodal-title {
+    font-size: 1.5rem;
+}
+
+.vmodal-close {
+    cursor: pointer;
+}
+
+.vmodal-body {
+    padding: 10px;
+}
+
+.vmodal-body p {
+    margin: 0 0 5px;
+}
+
+.vmodal-footer {
+    padding: 5px 10px;
+    border-top: 1px solid #eee;
+}
